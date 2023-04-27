@@ -4,3 +4,82 @@
 *:after {
   box-sizing: border-box;
 }
+
+body{
+  background-image: url("../images/site/checkerboard.jpg");
+}
+p, a, li{
+  font-family: 'Share Tech Mono', monospace;
+}
+h1, h2, h3{
+  font-family: 'Share Tech Mono', monospace; 
+}
+.content{
+  background-color: white;
+  border-color: rgb(159, 231, 255);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 1%;
+}
+
+.siteName a, #tools a{
+text-decoration: none;
+}
+#tools{
+  display: flex;
+  margin-left: 70%;
+  margin-top: -2% ;
+  color: black;
+}
+.nav{
+  height: 30px;
+  width: 100%;
+  background-color: black;
+}
+.nav a:link{
+  text-decoration: none;
+  color: white;
+}
+.nav a:visited{
+  color: white;
+}
+
+.nav li{
+  float: left;
+  margin-right: 5%;
+  margin-top: 8px; 
+  list-style: none; 
+  
+}
+.nav li :hover{
+  background-color: #348ad6;
+  color: white;
+  padding: 5%;
+  
+}
+
+.Dupgrades{
+  float: left;
+  margin-left: 5%;
+  margin-right: 50%;
+  margin-bottom: 3%;
+}
+.grid{
+  display: grid;
+  grid-template-columns: 33% 33% ;
+}
+
+
+footer{
+  margin-top: 10%;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  body{
+    background-image: none;
+  }
+  .content{
+    border: none;
+  }
+}
