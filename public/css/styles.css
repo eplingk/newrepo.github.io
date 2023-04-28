@@ -22,9 +22,11 @@ h1, h2, h3{
   border-radius: 1%;
 }
 
-.siteName a, #tools a{
+.siteName a, #tools a, .siteName a:visited, #tools a:visited{
 text-decoration: none;
+color: black;
 }
+
 #tools{
   display: flex;
   margin-left: 70%;
@@ -58,16 +60,35 @@ text-decoration: none;
   
 }
 
+#grayCar{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#ownToday{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .Dupgrades{
   float: left;
   margin-left: 5%;
   margin-right: 50%;
   margin-bottom: 3%;
+  
+}
+.Dupgrades a:visited{
+  color: black;
 }
 .grid{
   display: grid;
-  grid-template-columns: 33% 33% ;
+  grid-template-columns: 50% 50% ;
+  background-color: #348ad6;
+  list-style-type: none;
 }
+
+
 
 
 footer{
