@@ -1,12 +1,13 @@
 <!-- Content Heading -->
 <% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+  <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/')
+  } %>
 
 <!-- Message -->
 <%# messages() %>
 
 <!-- Inventory Items Display -->
 <%- newView %>
+

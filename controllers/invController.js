@@ -4,6 +4,7 @@ const utilities = require("../utilities/")
 const invCont = {}
 
 
+
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
@@ -28,9 +29,9 @@ invCont.deliverInventory = async function (req, res, next) {
   const getCar = await invModel.getItemByInventoryId(inventory_id)
   const newView = await utilities.buildViewIndividualCar(getCar)
   let nav = await utilities.getNav()
-  const className = getCar[0].inv_id
+  const invenid = getCar[0].inv_id
   res.render("./inventory/classification", {
-    title: className + " vehicles",
+    title: invenid + " vehicles",
     nav,
     newView,
   })

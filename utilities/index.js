@@ -1,6 +1,7 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
 
+
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
@@ -62,27 +63,18 @@ Util.buildClassificationGrid = async function(data){
 * Build the individual car view HTML
 * ************************************ */
 Util.buildViewIndividualCar = async function(getCar){
-  let newView =
-  '<p>This is suppossed to be a close-up pic and more info</p>'
-  // if(getCar.length > 0){
-  //   // *****CREATE A NEW GRID, ONE THAT JUST SHOWS ONE CAR AND ITS INFO****
-  //     newGrid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-  //     + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-  //     + 'details"><img src="' + vehicle.inv_thumbnail 
-  //     +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-  //     +' on CSE Motors" /></a>'
-  //     newGrid += '<div class="namePrice">'
-  //     newGrid += '<hr />'
-  //     newGrid += '<h2>'
-  //     newGrid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-  //     + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-  //     + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
-  //     newGrid += '</h2>'
-  //     newGrid += '<span>$' 
-  //     + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-  //     newGrid += '</div>'
-  //   }
-  
+  let newView
+  if(getCar.length > 0){
+    newView = '<div class="singleCarView">'
+    getCar.forEach(vehicle => { 
+      newView =+ '<img src="' + vehicle.inv_image
+      // newView =+ new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      
+    })
+    newView += '</div>'
+  } else { 
+    newView += '<p class="notice">Oops, this view could not be found.</p>'
+  }
   return newView
 }
 
