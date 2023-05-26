@@ -29,21 +29,18 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-/* ***************************
- *  Get all inventory items and classification_name by classification_id
- * ************************** */
-async function getItemByInventoryId(inventory_id) {
-  try {
-    const getCar = await pool.query(
-      "SELECT * FROM public.inventory As i JOIN public.inventory AS c ON i.inventory_id = c.inventory_id WHERE i.inventory_id = $1",
-      [inventory_id]
-    )
-    return getCar.rows
-  } catch (error) {
-    console.error("getitembyinventoryid error " + error)
-  }
+// 505 Error Link
+async function errorOnPurpose(){
+  try{
+    fakeFunction()
+
+   return
+} catch (error){
+  console.error("erroronpurpose" + error)
+}
 }
 
 
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventory,getItemByInventoryId };
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventory };

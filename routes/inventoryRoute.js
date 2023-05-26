@@ -8,6 +8,9 @@ const invController = require("../controllers/invController")
 router.get("/type/:classificationId", invController.buildByClassificationId);
 
 // Route to deliver inventory view
-router.get("/type/:invId", invController.deliverInventory);
+router.get("/detail/:invId", invController.deliverInventory);
+
+// Route to 500 error
+// router.get("/type/:err", invController.linkToError);
 
 module.exports = router;

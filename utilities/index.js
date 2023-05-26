@@ -78,6 +78,10 @@ Util.buildViewIndividualCar = async function(getCar){
   return newView
 }
 
+// Util.linkToError = async function(){
+//   let errorOnPurpose()
+// }
+
 
 /* ****************************************
  * Middleware For Handling Errors

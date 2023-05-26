@@ -37,4 +37,20 @@ invCont.deliverInventory = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ *  Link to 500 Error
+ * ************************** */
+invCont.linkToError = async function (req, res, next) {
+  const inventory_id = req.params.err
+  const getCar = await invModel.errorOnPurpose()
+  const newView = await utilities.buildViewIndividualCar(getCar)
+  let nav = await utilities.getNav()
+  const invenid = getCar[0].inv_id
+  res.render("./inventory/classification", {
+    title: invenid + " vehicles",
+    nav,
+    newView,
+  })
+}
+
 module.exports = invCont
