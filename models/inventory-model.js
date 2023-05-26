@@ -30,15 +30,15 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 // 505 Error Link
-async function errorOnPurpose(){
-  try{
-    fakeFunction()
+// async function errorOnPurpose(){
+//   try{
+//     fakeFunction()
 
-   return
-} catch (error){
-  console.error("erroronpurpose" + error)
-}
-}
+//    return
+// } catch (error){
+//   console.error("erroronpurpose" + error)
+// }
+// }
 
 
 

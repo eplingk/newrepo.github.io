@@ -67,8 +67,12 @@ Util.buildViewIndividualCar = async function(getCar){
   if(getCar.length > 0){
     newView = '<div class="singleCarView">'
     getCar.forEach(vehicle => { 
+      newView =+ '<h1>' + vehicle.inv_id + '</h1>'
       newView =+ '<img src="' + vehicle.inv_image
-      // newView =+ new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      grid += '<span>$'
+      newView =+ new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      newView =+ '<p>' + vehicle.inv_make + ' ' + vehicle.inv_model + '</p>'
+      newView =+ '<p>' + vehicle.color + '</p>'
       
     })
     newView += '</div>'
