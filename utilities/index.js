@@ -62,14 +62,14 @@ Util.buildClassificationGrid = async function(data){
 /* **************************************
 * Build the individual car view HTML
 * ************************************ */
-Util.buildViewIndividualCar = async function(getCar){
+Util.buildViewIndividualCar = async function(data){
   let newView
-  if(getCar.length > 0){
+  if(data.length > 0){
     newView = '<div class="singleCarView">'
-    getCar.forEach(vehicle => { 
+    data.forEach(vehicle => { 
       newView =+ '<h1>' + vehicle.inv_make + '</h1>'
       newView =+ '<img src="' + vehicle.inv_image
-      grid += '<span>$'
+      newView += '<span>$'
       newView =+ new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       newView =+ '<p>' + vehicle.inv_model + ' ' + vehicle.inv_year + '</p>'
       newView =+ '<p>' + vehicle.color + ' ' + vehicle.inv_miles + '</p>'

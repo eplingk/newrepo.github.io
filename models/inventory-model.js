@@ -10,8 +10,9 @@ async function getClassifications(){
 /* ***************************
  *  Get all inventory data
  * ************************** */
-async function getInventory(){
-  return await pool.query("SELECT * FROM public.inventory ORDER BY inv_id")
+async function getInventory(inventory_id){
+  const data = await pool.query("SELECT * FROM public.inventory where inv_id = $1", [inventory_id])
+  return data.rows
 }
 
 /* ***************************
@@ -28,6 +29,11 @@ async function getInventoryByClassificationId(classification_id) {
     console.error("getclassificationsbyid error " + error)
   }
 }
+
+// Additional function?????
+// async function getItemByInventoryId{
+  // ...if needed...don't know what goes here...
+// }
 
 // 505 Error Link
 // async function errorOnPurpose(){

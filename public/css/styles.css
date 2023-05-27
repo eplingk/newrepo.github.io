@@ -117,6 +117,9 @@ ul{
   color: red;
   background-color: blue;
 } */
+.singleCarView{
+  background-color: gray;
+}
 
 footer{
   margin-top: 20%;
