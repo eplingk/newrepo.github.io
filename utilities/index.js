@@ -41,7 +41,6 @@ Util.buildClassificationGrid = async function(data){
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -51,6 +50,7 @@ Util.buildClassificationGrid = async function(data){
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
+      grid += '<hr />'
     })
     grid += '</ul>'
   } else { 
@@ -67,13 +67,22 @@ Util.buildViewIndividualCar = async function(data){
   if(data.length > 0){
     newView = '<div class="singleCarView">'
     data.forEach(vehicle => { 
-      newView =+ '<h1>' + vehicle.inv_make + '</h1>'
-      newView =+ '<img src="' + vehicle.inv_image
-      newView += '<span>$'
-      newView =+ new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      newView =+ '<p>' + vehicle.inv_model + ' ' + vehicle.inv_year + '</p>'
-      newView =+ '<p>' + vehicle.color + ' ' + vehicle.inv_miles + '</p>'
-      newView =+ '<p>' + vehicle.inv_description + '</p>'
+      newView += '<li>'
+      newView +=  '<img src="' + vehicle.inv_image 
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      +' on CSE Motors" />'
+      newView += '<div class="carInfo">'
+      newView += '<h2>'
+      newView += vehicle.inv_make + ' ' + vehicle.inv_model 
+      newView += '</h2>'
+      newView += '<span>$' 
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      newView += '<p>' + vehicle.inv_description + '</p>'
+      newView += 'Year:' + vehicle.inv_year + ' | '
+      + '  Color available:' + vehicle.inv_color + ' | ' + '  Mileage:' 
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</p>'
+      newView += '</div>'
+      newView += '</li>'
 
     })
     newView += '</div>'
@@ -83,19 +92,12 @@ Util.buildViewIndividualCar = async function(data){
   return newView
 }
 
-// Util.linkToError = async function(){
-//   let errorOnPurpose()
-// }
-
-
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-
-
 
 
 module.exports = Util

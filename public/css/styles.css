@@ -109,17 +109,31 @@ ul{
   list-style-type:none;
 }
 
-/* .errorMessage{
-  background-color: orange;
-  margin-left: 20%;
-} */
-/* .test{
-  color: red;
-  background-color: blue;
-} */
-.singleCarView{
-  background-color: gray;
+.errorMessage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:#7eb8eb;
+  font-size: larger;
+  font-weight: bold;
+  padding: 2%;
+  
 }
+
+.singleCarView{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  border-bottom: none;
+}
+.carInfo{
+  float: right;
+  width:500px;
+  word-wrap: break-word;
+  padding-left: 5%;
+}
+
 
 footer{
   margin-top: 20%;
@@ -138,5 +152,13 @@ footer{
 
   footer{
     margin-left: 15%;
+  }
+
+  .singleCarView{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    border-bottom: none;
   }
 }

@@ -10,7 +10,9 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 // Route to deliver inventory view
 router.get("/detail/:invId", invController.deliverInventory);
 
-// Route to 500 error
-// router.get("/type/:err", invController.linkToError);
+router.get("/error", invController.makeAnError);
+
+
+  
 
 module.exports = router;

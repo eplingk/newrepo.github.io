@@ -14,13 +14,13 @@ const baseController = require("./controllers/baseController")
 const utilities = require("./utilities/index.js")
 
 
+
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
-
 
 /* ***********************
  * Routes
@@ -36,6 +36,7 @@ app.use("/inv", require("./routes/inventoryRoute"))
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
+
 
 
 /* ***********************
