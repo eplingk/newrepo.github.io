@@ -1,0 +1,40 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <%} else {
+        res.redirect('/')
+    } %>
+    
+    <div class="loginPage">
+    <div class="loginForm">
+        
+        <form action="/account/register" method="post">
+
+            <p>*All fields are required*</p>
+
+        <label for="fname"><b>First name:</b></label><br>
+        <input type="text" id="fname" name="account_firstname" placeholder="John" required value="<%= locals.account_firstname %>"><br><br>
+        <label for="lname"><b>Last name:</b></label><br>
+        <input type="text" id="lname" name="account_lastname" placeholder="Doe" required value="<%= locals.account_lastname %>"><br><br>
+        <label for="email"><b>Email:</b></label><br>
+        <input type="email" id="email" name="account_email" placeholder="Jdoe@fakeemail.com" required value="<%= locals.account_email %>"><br><br>
+        <label for="password"><b>Password:</b></label><br>
+        <input type="password" id="password" name="account_password" placeholder="#goodPassword123" minlength="12" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required><br><br>
+        <p>Passwords need to be a minimum of 12 characters and include:
+            1 captial letter, 1 number and 1 special character
+        </p>
+        <input id="subButton" type="submit" value="Register">
+      </form> 
+<%- messages() %>
+</div>
+<div class="loginForm">
+    <p>Already a member? Login <a href="/account/account">here</a>.</p>
+ </div>
+</div>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>

@@ -133,6 +133,30 @@ ul{
   word-wrap: break-word;
   padding-left: 5%;
 }
+.loginPage{
+  width:500px;
+  padding: 2%;
+  background-color: lightgray;
+  
+}
+.loginForm{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#fname, #lname, #email, #password{
+  border-width:5px;
+  height: 50px;
+  width: 250px;
+}
+#fname::placeholder, #lname::placeholder, #email::placeholder, #password::placeholder{
+    opacity: .5;
+  }
+#subButton{
+  border-width:5px;
+  color: black;
+  background-color: white;
+}
 
 
 footer{
