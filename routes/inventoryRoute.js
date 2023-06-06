@@ -12,6 +12,9 @@ router.get("/detail/:invId", invController.deliverInventory);
 
 router.get("/error", invController.makeAnError);
 
+// Route to management view
+// router.get("/management", invController.)
+
 
   
 
