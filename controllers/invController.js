@@ -129,7 +129,7 @@ const addInventFlash = await invModel.addInventoryItem(
 if (addInventFlash) {
   req.flash(
     "notice",
-    `Classification has been successfully added.`
+    `Thank you. ${inv_make, inv_model} has been successfully added to the inventory.`
   )
   res.status(201).render("./inventory/management", {
     title: "Management Options",
