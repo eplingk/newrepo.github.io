@@ -92,6 +92,20 @@ Util.buildViewIndividualCar = async function(data){
   return newView
 }
 
+
+/* ************************
+ * Classifications Dropdown Menu
+ ************************** */
+Util.classList = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  let list = '<select name="classification_id">'
+  data.rows.forEach((row) => {
+    list += '<option value="' + row.classification_id + '">' + row.classification_name +'</option>'
+  })
+  list += "</select>"
+  return list
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

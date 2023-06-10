@@ -133,13 +133,13 @@ ul{
   word-wrap: break-word;
   padding-left: 5%;
 }
-.loginPage{
+.formPage{
   width:500px;
   padding: 2%;
   background-color: lightgray;
   
 }
-.loginForm{
+.Form{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,12 +152,15 @@ ul{
 #fname::placeholder, #lname::placeholder, #email::placeholder, #password::placeholder{
     opacity: .5;
   }
-#subButton{
+.subButton{
   border-width:5px;
   color: black;
   background-color: white;
 }
 
+.box{
+ padding: 2%;
+}
 
 footer{
   margin-top: 20%;

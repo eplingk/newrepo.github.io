@@ -4,8 +4,8 @@
         res.redirect('/')
     } %>
     
-    <div class="loginPage">
-    <div class="loginForm">
+    <div class="formPage">
+    <div class="Form">
         
         <form action="/account/register" method="post">
 
@@ -22,7 +22,7 @@
         <p>Passwords need to be a minimum of 12 characters and include:
             1 captial letter, 1 number and 1 special character
         </p>
-        <input id="subButton" type="submit" value="Register">
+        <input class="subButton" type="submit" value="Register">
       </form> 
 <%- messages() %>
 </div>

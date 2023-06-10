@@ -7,4 +7,18 @@
 
 <!-- Messages -->
 <%# messages() %>
-<%- messages() %>
+
+<div class="formPage">
+  <div class="Form">
+
+<form action="./process-classification" method="post">
+  <p>*All fields are required*</p>
+  <label for="cname"><b>Classification Name:</b></label><br>
+  <p>NOTE: the new classification name cannot have any special characters or spaces</p>
+  <input type="text" id="className" name="classification_name" pattern="[a-zA-Z0-9]+" required value="<%= locals.classification_name%>"><br><br>
+  <input class="subButton" type="submit" value="Submit">
+  </form>
+
+
+  <%- messages() %>
+  </div></div>

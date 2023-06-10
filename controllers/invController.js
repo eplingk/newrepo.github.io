@@ -3,8 +3,6 @@ const utilities = require("../utilities/")
 
 const invCont = {}
 
-
-
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
@@ -39,58 +37,84 @@ invCont.deliverInventory = async function (req, res, next) {
 }
 
 /* ***************************
- *  Add New Classification View
+ *  Build Management view
  * ************************** */
-invCont.addClassification = async function (req, res, next) {
-  // const inventory_id = req.params.invId
-  // const data = await invModel.getInventory(inventory_id)
-  // const newView = await utilities.buildViewIndividualCar(data)
-  let nav = await utilities.getNav()
-  res.render("./inventory/addClassification", {
-    title: data[0].inv_make + " " + data[0].inv_model,
-    nav,
-    newView,
-    errors: null,
-  })
+invCont.buildManagementView = async function (req, res, next) {
 
-const addClassFormFlash = await invCont.addClassification(
-  classification_name
-)
-if (addClassFormFlash) {
-  req.flash(
-    "notice",
-    `Classification has been successfully added.`
-  )
-  res.status(201).render("inventory/management", {
-    title: "Management Options",
-    nav,
-    errors: null,
-  })
-} else {
-  req.flash("notice", "Sorry, the classification failed to be added.")
-  res.status(501).render("inventory/addClassification", {
-    title: "Add Classification",
+  let nav = await utilities.getNav()
+  res.render("./inventory/management", {
+    title: "Vehicle Management",
     nav,
     errors: null,
   })
 }
 
 /* ***************************
+ *  Add New Classification View
+ * ************************** */
+invCont.addClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Process new Classification
+* *************************************** */
+invCont.processClassification = async function(req, res, next) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+
+const regResult = await invModel.addClassitem(
+  classification_name
+)
+
+if (regResult) {
+  req.flash(
+    "notice",
+    `Thank you, the classification ${classification_name} has been added.`
+  )
+  res.status(201).render("./inventory/management", {
+    title: "Vehicle Management",
+    nav,
+    errors: null,
+  })
+} else {
+  req.flash("notice", "Sorry, the registration failed.")
+  res.status(501).render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  })
+}
+}
+
+
+/* ***************************
  *  Add New Inventory View
  * ************************** */
 invCont.addInventory = async function (req, res, next) {
-  const inventory_id = req.params.invId
-  const data = await invModel.getInventory(inventory_id)
-  const newView = await utilities.buildViewIndividualCar(data)
+  let list = await utilities.classList()
   let nav = await utilities.getNav()
-  res.render("./inventory/addInventory", {
-    title: data[0].inv_make + " " + data[0].inv_model,
+  res.render("./inventory/add-inventory", {
+    title: "Add to Inventory",
     nav,
-    newView,
+    list,
     errors: null,
   })
+}
 
-const addInventFlash = await invCont.addInventory(
+/* ****************************************
+*  Process new Inventory
+* *************************************** */
+ invCont.processInventory = async function (req, res, next) {
+   let nav = await utilities.getNav()
+  const {inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,
+    inv_color,classification_id } = req.body
+const addInventFlash = await invModel.addInventoryItem(
   inv_make,
   inv_model,
   inv_year,
@@ -107,22 +131,20 @@ if (addInventFlash) {
     "notice",
     `Classification has been successfully added.`
   )
-  res.status(201).render("inventory/management", {
+  res.status(201).render("./inventory/management", {
     title: "Management Options",
     nav,
     errors: null,
   })
 } else {
   req.flash("notice", "Sorry, this failed to be added to the inventory.")
-  res.status(501).render("inventory/addInventory", {
+  res.status(501).render("./inventory/add-inventory", {
     title: "Add Inventory",
     nav,
     errors: null,
   })
 }
 }
-}
-
 
 /* ***************************
  *  This returns a 500 error
@@ -131,5 +153,4 @@ invCont.makeAnError = async function (req, res, next){
   res.status(500).render("")
 }
 
-
-module.exports = {invCont,addClassFormFlash,addInventFlash }
+module.exports = invCont

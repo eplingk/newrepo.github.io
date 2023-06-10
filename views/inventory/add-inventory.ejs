@@ -7,4 +7,35 @@
 
 <!-- Messages -->
 <%# messages() %>
-<%- messages() %>
+<div class="formPage">
+  <div class="Form">
+
+<form action="./process-inventory" method="post">
+  <p>*All fields are required*</p>
+  <label for="vmake"><b>Vehicle Make:</b></label><br>
+  <input type="text" id="vmake" name="inv_make" placeholder= "min 3 characters" minlength="3" required value="<%= locals.inv_make %>"><br><br>
+  <label for="vmodel"><b>Vehicle Model:</b></label><br>
+  <input type="text" id="vmodel" name="inv_model" placeholder= "min 3 characters" minlength="3" required value="<%= locals.inv_model %>"><br><br>
+  <label for="vyear"><b>Vehicle Year:</b></label><br>
+  <input type="number" id="vyear" name="inv_year" placeholder= "4-digits"  required value="<%= locals.inv_year %>"><br><br>
+  <label for="vdes"><b>Vehicle Description:</b></label><br>
+  <input type="text" id="vdes" name="inv_description"  required value="<%= locals.inv_description %>"><br><br>
+  <label for="vimage"><b>Vehicle Image:</b></label><br>
+  <input type="text" id="vimage" name="inv_image" placeholder= "no-image.png" required value="<%= locals.inv_image %>"><br><br>
+  <label for="vthumb"><b>Vehicle Thumnail:</b></label><br>
+  <input type="text" id="vthumb" name="inv_thumbnail" placeholder= "no-image-tn.png" required value="<%= locals.inv_thumbnail %>"><br><br>
+  <label for="vprice"><b>Vehicle Price:</b></label><br>
+  <input type="number" id="vprice" name="inv_price" placeholder= "digits only" required value="<%= locals.inv_price %>"><br><br>
+  <label for="vmiles"><b>Vehicle Miles:</b></label><br>
+  <input type="number" id="vmiles" name="inv_miles" placeholder= "digits only" required value="<%= locals.inv_miles %>"><br><br>
+  <label for="lname"><b>Vehicle Color:</b></label><br>
+  <input type="text" id="lname" name="inv_color"  required value="<%= locals.inv_color %>"><br><br>
+  <label for="cars">Choose a classification:</label>
+  <%- list %>
+  <input class="subButton" type="submit" value="Submit"> 
+ </form>
+
+ </div>
+ </div>
+
+ <%- messages() %>
