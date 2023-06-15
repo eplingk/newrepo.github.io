@@ -107,15 +107,15 @@ if (!emailExists){
   /* ******************************
  * Check data and return errors or continue with login
  * ***************************** */
-  validate.checkRegData = async (req, res, next) => {
+  validate.checkLoginData = async (req, res, next) => {
     const { account_firstname, account_lastname, account_email } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("account/account", {
+      res.render("account/loggedIn", {
         errors,
-        title: "Account Info",
+        title: "You're logged in",
         nav,
         account_firstname,
         account_lastname,

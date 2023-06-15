@@ -15,7 +15,7 @@ router.get("/detail/:invId", utilities.handleErrors(invController.deliverInvento
 router.get("/error", utilities.handleErrors(invController.makeAnError))
 
 // Route to management view
-router.get("/management", utilities.handleErrors(invController.buildManagementView))
+router.get("/", utilities.handleErrors(invController.buildManagementView))
 
 // Route to add-classifications view
 router.get("/add-classification", utilities.handleErrors(invController.addClassification))

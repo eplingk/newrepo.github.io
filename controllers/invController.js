@@ -40,10 +40,13 @@ invCont.deliverInventory = async function (req, res, next) {
  *  Build Management view
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
-
+  // const classificationSelect = await utilities.getClassifications()
+  let list = await utilities.classList()
   let nav = await utilities.getNav()
   res.render("./inventory/management", {
     title: "Vehicle Management",
+    // classificationSelect,
+    list,
     nav,
     errors: null,
   })
@@ -77,7 +80,7 @@ if (regResult) {
     "notice",
     `Thank you, the classification ${classification_name} has been added.`
   )
-  res.status(201).render("./inventory/management", {
+  res.status(201).render("./inventory/", {
     title: "Vehicle Management",
     nav,
     errors: null,

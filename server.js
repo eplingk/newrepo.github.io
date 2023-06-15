@@ -20,6 +20,9 @@ const pool = require('./database/')
 // Body Parser
 const bodyParser = require("body-parser")
 
+// cookies
+const cookieParser = require("cookie-parser")
+
 
 
 /* ***********************
@@ -47,6 +50,11 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+// cookies
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
 
 
 

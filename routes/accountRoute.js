@@ -13,6 +13,9 @@ router.get("/account", utilities.handleErrors(accountController.buildLogin))
 // Deliver Resistration View
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+// Account Management
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildloggedIn))
+
 // Process the registration data
 router.post(
     "/register",
@@ -23,10 +26,10 @@ router.post(
 
 // Process the login attempt
 router.post(
-  "/account",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
-)
+    "/account",
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
+    utilities.handleErrors(accountController.accountLogin)
+  )
 
 module.exports = router;
