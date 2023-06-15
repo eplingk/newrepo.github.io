@@ -40,15 +40,13 @@ invCont.deliverInventory = async function (req, res, next) {
  *  Build Management view
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
-  // const classificationSelect = await utilities.getClassifications()
-  let list = await utilities.classList()
+  const classificationSelect = await utilities.classList()
   let nav = await utilities.getNav()
   res.render("./inventory/management", {
     title: "Vehicle Management",
-    // classificationSelect,
-    list,
     nav,
     errors: null,
+    classificationSelect,
   })
 }
 
@@ -154,6 +152,21 @@ if (addInventFlash) {
  * ************************** */
 invCont.makeAnError = async function (req, res, next){
   res.status(500).render("")
+}
+
+
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
+  }
 }
 
 module.exports = invCont

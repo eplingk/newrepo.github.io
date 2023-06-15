@@ -25,6 +25,9 @@ router.post("/process-classification",regValidate.newClassificationRule(), regVa
 router.get("/add-inventory",regValidate.checkNewInventory, utilities.handleErrors(invController.addInventory))
 router.post("/process-inventory", utilities.handleErrors(invController.processInventory))
 
+// Route that works with inventory.js
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
 
   
 
