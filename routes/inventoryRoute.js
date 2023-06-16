@@ -19,14 +19,17 @@ router.get("/", utilities.handleErrors(invController.buildManagementView))
 
 // Route to add-classifications view
 router.get("/add-classification", utilities.handleErrors(invController.addClassification))
-router.post("/process-classification",regValidate.newClassificationRule(), regValidate.checkNewClass, utilities.handleErrors(invController.processClassification))
+router.post("/process-classification", utilities.handleErrors(invController.processClassification))
 
 // Route to add-inventory
-router.get("/add-inventory",regValidate.checkNewInventory, utilities.handleErrors(invController.addInventory))
+router.get("/add-inventory", utilities.handleErrors(invController.addInventory))
 router.post("/process-inventory", utilities.handleErrors(invController.processInventory))
 
 // Route that works with inventory.js
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// Modify inventory Route
+router.get("localhost:5500/inv/edit/:invID", utilities.handleErrors(invController.modifyInventory))
 
 
   

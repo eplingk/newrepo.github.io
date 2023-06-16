@@ -40,13 +40,14 @@ invCont.deliverInventory = async function (req, res, next) {
  *  Build Management view
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
-  const classificationSelect = await utilities.classList()
   let nav = await utilities.getNav()
+  let list = await utilities.classList()
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
+    list,
     errors: null,
-    classificationSelect,
+
   })
 }
 
@@ -78,7 +79,7 @@ if (regResult) {
     "notice",
     `Thank you, the classification ${classification_name} has been added.`
   )
-  res.status(201).render("./inventory/", {
+  res.status(201).render("./inventory/management", {
     title: "Vehicle Management",
     nav,
     errors: null,
@@ -147,14 +148,6 @@ if (addInventFlash) {
 }
 }
 
-/* ***************************
- *  This returns a 500 error
- * ************************** */
-invCont.makeAnError = async function (req, res, next){
-  res.status(500).render("")
-}
-
-
 
 /* ***************************
  *  Return Inventory by Classification As JSON
@@ -168,5 +161,47 @@ invCont.getInventoryJSON = async (req, res, next) => {
     next(new Error("No data returned"))
   }
 }
+
+/* ***************************
+ *  Deliver Modify Inventory View
+ * ************************** */
+invCont.modifyInventory = async function (req, res, next) {
+  const inv_id = parseInt(req.params.invID)
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventory(inv_id)
+  const classificationSelect = await utilities.classList(itemData.classification_id)
+  const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+  res.render("./inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id: itemData.inv_id,
+    inv_make: itemData.inv_make,
+    inv_model: itemData.inv_model,
+    inv_year: itemData.inv_year,
+    inv_description: itemData.inv_description,
+    inv_image: itemData.inv_image,
+    inv_thumbnail: itemData.inv_thumbnail,
+    inv_price: itemData.inv_price,
+    inv_miles: itemData.inv_miles,
+    inv_color: itemData.inv_color,
+    classification_id: itemData.classification_id
+  })
+}
+
+
+
+
+
+/* ***************************
+ *  This returns a 500 error
+ * ************************** */
+invCont.makeAnError = async function (req, res, next){
+  res.status(500).render("")
+}
+
+
+
 
 module.exports = invCont

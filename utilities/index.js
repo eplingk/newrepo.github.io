@@ -100,8 +100,10 @@ Util.buildViewIndividualCar = async function(data){
  ************************** */
 Util.classList = async function (req, res, next) {
   let data = await invModel.getClassifications()
-  let list = '<select name="classification_id">'
+  let list = '<select id="classificationList" name="classification_id">'
+  list += '<option> Select a Clasification </option>'
   data.rows.forEach((row) => {
+    
     list += '<option value="' + row.classification_id + '">' + row.classification_name +'</option>'
   })
   list += "</select>"
