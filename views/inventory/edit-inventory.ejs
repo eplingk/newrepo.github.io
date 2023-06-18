@@ -5,12 +5,15 @@
       res.redirect('/')
     } %>
 
+
+
+
 <!-- Messages -->
 <%# messages() %>
 <div class="formPage">
   <div class="Form">
 
-    <form action="/inv/update" method="post">
+    <form id="updateForm" action="/inv/update" method="post">
   <p>*All fields are required*</p>
   <label for="vmake"><b>Vehicle Make:</b></label><br>
   <input type="text" id="vmake" name="inv_make" placeholder= "min 3 characters" minlength="3" required value="<%= locals.inv_make %>"><br><br>
@@ -31,9 +34,16 @@
   <label for="lname"><b>Vehicle Color:</b></label><br>
   <input type="text" id="lname" name="inv_color"  required value="<%= locals.inv_color %>"><br><br>
   <label for="cars">Choose a classification:</label>
-  <%- list %>
-  <input class="subButton" type="submit" value="Update Vehicle"> 
- </form>
+  <%- classificationSelect %>
+  <button id="updateButton" type="submit" disabled>Update Vehicle</button> 
+  <input type="hidden" name="inv_id"
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+
+
+</form>
+
+
 
  </div>
  </div>

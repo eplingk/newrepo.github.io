@@ -162,6 +162,11 @@ ul{
  padding: 2%;
 }
 
+.red{
+  color:red;
+  font-weight: 300;
+}
+
 footer{
   margin-top: 20%;
   margin-left: 40%;

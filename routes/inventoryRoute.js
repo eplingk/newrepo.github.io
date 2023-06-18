@@ -29,7 +29,10 @@ router.post("/process-inventory", utilities.handleErrors(invController.processIn
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 // Modify inventory Route
-router.get("localhost:5500/inv/edit/:invID", utilities.handleErrors(invController.modifyInventory))
+router.get("/edit/:invID", utilities.handleErrors(invController.modifyInventory))
+router.post("/update/", utilities.handleErrors(invController.updateInventory))
+router.get("/delete/:inv_ID", utilities.handleErrors(invController.deleteInventory))
+router.post("/newupdate/", utilities.handleErrors(invController.processdelete))
 
 
   
