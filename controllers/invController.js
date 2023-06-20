@@ -72,8 +72,9 @@ invCont.addClassification = async function (req, res, next) {
 * *************************************** */
 invCont.processClassification = async function(req, res, next) {
   let nav = await utilities.getNav()
+  const classificationSelect = await invModel.getClassifications()
+  let list = await utilities.classList()
   const { classification_name } = req.body
-
 const regResult = await invModel.addClassitem(
   classification_name
 )
@@ -86,6 +87,8 @@ if (regResult) {
   res.status(201).render("./inventory/management", {
     title: "Vehicle Management",
     nav,
+    classificationSelect,
+    list,
     errors: null,
   })
 } else {
@@ -120,6 +123,8 @@ invCont.addInventory = async function (req, res, next) {
 * *************************************** */
  invCont.processInventory = async function (req, res, next) {
    let nav = await utilities.getNav()
+   const classificationSelect = await invModel.getClassifications()
+  let list = await utilities.classList()
   const {inv_make,inv_model,inv_year,inv_description,inv_image,inv_thumbnail,inv_price,inv_miles,
     inv_color,classification_id } = req.body
 const addInventFlash = await invModel.addInventoryItem(
@@ -142,6 +147,8 @@ if (addInventFlash) {
   res.status(201).render("./inventory/management", {
     title: "Management Options",
     nav,
+    classificationSelect,
+    list,
     errors: null,
   })
 } else {

@@ -83,6 +83,28 @@ app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
 
+//************** */ In your route for handling login ***************
+app.get('/', (req, res) => {
+  // Determine the loggedIn status based on your authentication logic
+  const loggedIn = req.session.loggedIn || false;
+
+  // Render the template and pass the loggedIn variable as a local variable
+  res.render('index', { loggedIn });
+})
+app.post('/login', (req, res) => {
+  // Perform authentication and set loggedIn status
+  req.session.loggedIn = true;
+  // Other login logic
+})
+
+// In your route for handling logout
+app.post('/logout', (req, res) => {
+  // Clear session and remove loggedIn status
+  req.session.destroy();
+  // Other logout logic
+})
+// ***********************************************************************
+
 
 
 /* ***********************
