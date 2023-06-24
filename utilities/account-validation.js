@@ -128,6 +128,47 @@ if (!emailExists){
     next()
   }
 
+  /*  **********************************
+ *  New Password Rules
+ * ********************************* */
+validate.newPasswordRules = () => {
+  return [
+  // password is required and must be strong password
+    body("account_password")
+      .trim()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ]
+}
+
+ /* ******************************
+ * Account Update Rules
+ * ***************************** */
+ validate.updateRules = async (req, res, next) => {
+  const { account_firstname, account_lastname, account_email } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/account", {
+      errors,
+      title: "Log in",
+      nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+    })
+    return
+  }
+  next()
+}
+
  
 
 

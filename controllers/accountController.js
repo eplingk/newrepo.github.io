@@ -122,6 +122,111 @@ async function buildloggedIn(req, res, next) {
   })
 }
 
+/* ****************************************
+*  Account Update View
+* *************************************** */
+async function buildUpdateForms(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/update-account", {
+    title: "Update Your Account",
+    nav,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Process Account Update
+* *************************************** */
+async function processUpdate(req, res) {
+  let nav = await utilities.getNav()
+  const { account_firstname, account_lastname, account_email } = req.body
+  const account_id = res.locals.accountData.account_id
+
+  const account = await accModel.getAccountByID(account_id)
+
+  if (account) {
+    const updateResult = await accModel.updateAccountInformation(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    )
+
+    if (updateResult) {
+      req.flash(
+        "notice",
+        `Thank you, ${account_firstname}. Your account information has been updated.`
+      )
+      res.status(201).render("account/loggedIn", {
+        title: "You're logged in",
+        nav,
+        errors: null,
+      })
+    } else {
+      req.flash("notice", "Sorry, your information failed to update.")
+      res.status(501).render("account/update-account", {
+        title: "Update Your Account",
+        nav,
+        errors: null,
+      })
+    }
+  } else {
+    req.flash("notice", "Sorry, your account was not found.")
+    res.status(404).render("account/update-account", {
+      title: "Update Your Account",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
+  /* ****************************************
+*  Process New Password
+* *************************************** */
+async function processNewPassword(req, res) {
+  let nav = await utilities.getNav()
+  const {account_password } = req.body
+
+  // Hash the password before storing
+  let hashedPassword
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error resetting your new password.')
+    res.status(500).render("account/update-account", {
+      title: "Update Your Account",
+      nav,
+      errors: null,
+    })
+  }
+
+  const regResult = await accModel.updateAccountPassword(
+    hashedPassword
+  )
+
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Your new password has been reset.`
+    )
+    res.status(201).render("account/loggedIn", {
+      title: "Update Your Account",
+      nav,
+      errors: null,
+    })
+  } else {
+    req.flash("notice", "Sorry, we failed to reset your password.")
+    res.status(501).render("account/update-account", {
+      title: "Update Your Account",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+
 
 /* ****************************************
  *  Process logout request
@@ -133,4 +238,4 @@ async function accountLogout(req, res) {
 
 
   
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, accountLogout }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate, processNewPassword, accountLogout }
