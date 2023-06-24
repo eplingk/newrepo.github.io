@@ -3,6 +3,14 @@
     <%} else {
         res.redirect('/')
     } %>
+
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
     
     <div class="formPage">
     <div class="Form">
@@ -11,9 +19,9 @@
         <p>*All fields are required*</p>
 
         <label for="email"><b>Email:</b></label><br>
-        <input type="email" id="email" name="email" placeholder="Jdoe@fakeemail.com" required><br><br>
+        <input type="email" id="email" name="account_email" placeholder="Jdoe@fakeemail.com" required ><br><br>
         <label for="password"><b>Password:</b></label><br>
-        <input type="password" id="password" name="password" placeholder="#goodPassword123" required><br><br>
+        <input type="password" id="password" name="account_password" placeholder="#goodPassword123" required><br><br>
         <input class="subButton" type="submit" value="Login">
       </form> 
 <%- messages() %>

@@ -87,7 +87,7 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-  const accountData = await accountModel.getAccountByEmail(account_email)
+  const accountData = await accModel.getAccountByEmail(account_email)
   if (!accountData) {
    req.flash("notice", "Please check your credentials and try again.")
    res.status(400).render("account/account", {
@@ -103,7 +103,7 @@ async function accountLogin(req, res) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-   return res.redirect("/account/loggedIn")
+   return res.redirect("./management")
    }
   } catch (error) {
    return new Error('Access Forbidden')
@@ -121,5 +121,16 @@ async function buildloggedIn(req, res, next) {
     errors: null,
   })
 }
+
+
+/* ****************************************
+ *  Process logout request
+ * ************************************ */
+async function accountLogout(req, res) {
+  res.clearCookie('jwt');
+  res.redirect('/');
+}
+
+
   
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, accountLogout }

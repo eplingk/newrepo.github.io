@@ -110,6 +110,8 @@ Util.classList = async function (req, res, next) {
   return list
 }
 
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
@@ -129,10 +131,11 @@ Util.checkJWTToken = (req, res, next) => {
      if (err) {
       req.flash("Please log in")
       res.clearCookie("jwt")
-      return res.redirect("/account/login")
+      return res.redirect("/account/account")
      }
      res.locals.accountData = accountData
      res.locals.loggedin = 1
+    
      next()
     })
   } else {
@@ -151,6 +154,20 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/account")
   }
  }
+
+ /* ****************************************
+ *  Check Account Type
+ * ************************************ */
+ Util.checkAccountType = async (req, res, next) => {
+  let accountType = res.locals.accountData.account_type
+  if (accountType === 'Admin' || accountType === 'Employee') {
+    next()
+  } else {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+}
+
+
 
 
 module.exports = Util

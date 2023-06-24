@@ -1,3 +1,4 @@
+const { json } = require("body-parser")
 const pool = require("../database/")
 
 
@@ -21,7 +22,9 @@ async function checkExistingEmail(account_email){
   try {
     const sql = "SELECT * FROM account WHERE account_email = $1"
     const email = await pool.query(sql, [account_email])
+    console.log(JSON.stringify(email))
     return email.rowCount
+    
   } catch (error) {
     return error.message
   }
@@ -53,6 +56,7 @@ async function getAccountByEmail (account_email) {
     return new Error("No matching email found")
   }
 }
+
 
 
   module.exports = {registerAccount, checkExistingEmail, checkExistingPassword, getAccountByEmail};

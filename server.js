@@ -17,6 +17,7 @@ const utilities = require("./utilities/index.js")
 const session = require("express-session")
 const pool = require('./database/')
 
+
 // Body Parser
 const bodyParser = require("body-parser")
 
@@ -39,6 +40,7 @@ app.use(session({
   name: 'sessionId',
 }))
 
+
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json())
  app.use(bodyParser.urlencoded({ extended: true }))
@@ -55,6 +57,12 @@ app.use(function(req, res, next){
 app.use(cookieParser())
 
 app.use(utilities.checkJWTToken)
+
+// app.use(function(req, res, next){
+//   res.locals.amILoggedIn = utilities.checkLogin
+//   next()
+// })
+
 
 
 
@@ -82,28 +90,6 @@ app.use("/account", require("./routes/accountRoute"))
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
-
-//************** */ In your route for handling login ***************
-app.get('/', (req, res) => {
-  // Determine the loggedIn status based on your authentication logic
-  const loggedIn = req.session.loggedIn || false;
-
-  // Render the template and pass the loggedIn variable as a local variable
-  res.render('index', { loggedIn });
-})
-app.post('/login', (req, res) => {
-  // Perform authentication and set loggedIn status
-  req.session.loggedIn = true;
-  // Other login logic
-})
-
-// In your route for handling logout
-app.post('/logout', (req, res) => {
-  // Clear session and remove loggedIn status
-  req.session.destroy();
-  // Other logout logic
-})
-// ***********************************************************************
 
 
 

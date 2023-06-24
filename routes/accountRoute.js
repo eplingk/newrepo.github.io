@@ -14,7 +14,7 @@ router.get("/account", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 // Account Management
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildloggedIn))
+router.get("/management", utilities.checkLogin, utilities.handleErrors(accountController.buildloggedIn))
 
 // Process the registration data
 router.post(
@@ -31,5 +31,8 @@ router.post(
     regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin)
   )
+
+
+router.get('/logout', accountController.accountLogout)
 
 module.exports = router;

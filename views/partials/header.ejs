@@ -1,11 +1,19 @@
 
-<header id="top-header">
+
+  
+  <header id="top-header">
     <span class="siteName">
       <h2><a href="/" title="Return to home page">CSE Motors</a></h2>
     </span>
     <div id="tools">
-      <a title="Click to log in" href="/account/account">My Account</a>
+      
+      
+      <% if (locals.loggedin) { %>
+        <a title="Click to manage your account" href="/account/management">Welcome |&#160;</a>
+        <a title="Click to log out" href="/account/logout">Logout</a>
+      <% } else { %>
+        <a title="Click to log in" href="/account/account">My Account</a>
+      <% } %>
     </div>
   </header>
-
- <!-- random comment to make a new commit -->
+ 

@@ -94,13 +94,15 @@ if (!emailExists){
 
     // password is required and must be strong password
     body("account_password")
-      .trim()
-      .custom(async (account_password) => {
-        const passwordExists = await accountModel.checkExistingPassword(account_password)
-        if (!passwordExists){
-          throw new Error("That is an incorrect password. Try again")
-        }
-        }),
+        .trim()
+        .isStrongPassword({
+          minLength: 12,
+          minLowercase: 1,
+          minUppercase: 1,
+          minNumbers: 1,
+          minSymbols: 1,
+        })
+        .withMessage("Incorrect credentials"),
   ]
 }
 
@@ -113,9 +115,9 @@ if (!emailExists){
     errors = validationResult(req)
     if (!errors.isEmpty()) {
       let nav = await utilities.getNav()
-      res.render("account/loggedIn", {
+      res.render("account/account", {
         errors,
-        title: "You're logged in",
+        title: "Log in",
         nav,
         account_firstname,
         account_lastname,
@@ -125,6 +127,8 @@ if (!emailExists){
     }
     next()
   }
+
+ 
 
 
   

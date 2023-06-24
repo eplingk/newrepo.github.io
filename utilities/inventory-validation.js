@@ -1,8 +1,8 @@
-// const utilities = require(".")
-// const { body, validationResult } = require("express-validator")
-// const invModel = require("../models/inventory-model")
-// const validate = {}
-
+const utilities = require(".")
+const { body, validationResult } = require("express-validator")
+const invModel = require("../models/inventory-model")
+const validate = {}
+const jwt = require('jsonwebtoken')
 
 
 // /*  **********************************
@@ -73,6 +73,35 @@
 //     next()
 //   }
 
+// validate.checkAccountType = async (req, res, next) => {
+//     // Retrieve the JWT token from the request headers or cookies
+//     const token = req.headers.authorization || req.cookies.token;
+  
+//     if (!token) {
+//       // No token found, user is not authenticated
+//       return res.status(401).json({ error: 'Unauthorized' })
+//     }
+  
+//     try {
+//       // Verify the token and extract the account type
+//       const decoded = jwt.verify(token, 'your_secret_key')
+//       const accountType = decoded.accountType;
+  
+//       // Check if the account type is "Employee" or "Admin"
+//       if (accountType === 'Employee' || accountType === 'Admin') {
+//         // User has the required account type, grant access to the next middleware or route handler
+//         next();
+//       } else {
+//         // User does not have the required account type
+//         return res.status(403).json({ error: 'Forbidden' })
+//       }
+//     } catch (error) {
+//       // Invalid token or token verification failed
+//       return res.status(401).json({ error: 'Unauthorized' })
+//     }
+//   }
+
+
 
   
-//   module.exports = validate
+   module.exports = validate
