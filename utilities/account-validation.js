@@ -147,30 +147,33 @@ validate.newPasswordRules = () => {
   ]
 }
 
- /* ******************************
- * Account Update Rules
- * ***************************** */
- validate.updateRules = async (req, res, next) => {
-  const { account_firstname, account_lastname, account_email } = req.body
-  let errors = []
-  errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    let nav = await utilities.getNav()
-    res.render("account/account", {
-      errors,
-      title: "Log in",
-      nav,
-      account_firstname,
-      account_lastname,
-      account_email,
-    })
-    return
+  /*  **********************************
+ *  Account Update Rules
+ * ********************************* */
+  validate.loginRules = () => {
+    return [
+      // valid email is required and cannot already exist in the database
+      body("account_email")
+        .trim()
+        .isEmail()
+        .normalizeEmail()
+        .withMessage("A valid email is required.")
+        .custom(async (account_email, { req }) => {
+          const account_id = req.body.account_id // Assuming account_id is passed in the request body
+          const account = await accountModel.getAccountByID(account_id)
+  
+          // Check if submitted email is same as existing
+          if (account_email !== account.account_email) {
+            // No - Check if new email exists in table
+            const emailExists = await accountModel.checkExistingEmail(account_email)
+            // Yes - throw error
+            if (emailExists) {
+              throw new Error("Email exists. Please login or use a different email.")
+            }
+          }
+        })
+    ]
   }
-  next()
-}
-
- 
-
-
+  
   
   module.exports = validate
