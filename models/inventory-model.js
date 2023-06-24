@@ -50,18 +50,7 @@ async function addClassitem(classification_name){
 *   Create new inventory item
 * *************************** */
 async function addInventoryItem(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id){
-  try { 
-    // console.log("This is inv_make " + inv_make)
-    // console.log("This is inv_model " + inv_model)
-    // console.log("This is inv_year " + inv_year)
-    // console.log("This is inv_description " + inv_description)
-    // console.log("This is inv_image " + inv_image)
-    // console.log("This is inv_thumbnail " + inv_thumbnail)
-    // console.log("This is inv_price " + inv_price)
-    // console.log("This is inv_miles " + inv_miles)
-    // console.log("This is inv_color " + inv_color)
-    // console.log("This is classification_id" + classification_id)
-
+  try {
     const sql = "INSERT INTO inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
     return await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id])
   } catch (error) {
