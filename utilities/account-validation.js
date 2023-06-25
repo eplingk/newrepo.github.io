@@ -150,7 +150,7 @@ validate.newPasswordRules = () => {
   /*  **********************************
  *  Account Update Rules
  * ********************************* */
-  validate.loginRules = () => {
+  validate.updateRules = () => {
     return [
       // valid email is required and cannot already exist in the database
       body("account_email")

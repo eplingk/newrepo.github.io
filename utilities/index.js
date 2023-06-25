@@ -135,6 +135,8 @@ Util.checkJWTToken = (req, res, next) => {
      }
      res.locals.accountData = accountData
      res.locals.loggedin = 1
+
+     console.log(JSON.stringify(accountData)+ "*************************")
     
      next()
     })
@@ -152,6 +154,8 @@ Util.checkLogin = (req, res, next) => {
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/account")
+
+
   }
  }
 
