@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const accModel = require("../models/account-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Util = {}
@@ -110,6 +111,20 @@ Util.classList = async function (req, res, next) {
   return list
 }
 
+/* ************************
+ * Userlist Dropdown Menu
+ ************************** */
+Util.userList = async function (req, res, next) {
+  let data = await accModel.getAccounts()
+  let list = '<select id="userList" name="message_to">'
+  list += '<option> Select a Recipitent </option>'
+  data.rows.forEach((row) => {
+    
+    list += '<option value="' + row.account_id + '">' + row.account_lastname + ', ' + row.account_firstname +'</option>'
+  })
+  list += "</select>"
+  return list
+}
 
 
 /* ****************************************
@@ -136,7 +151,7 @@ Util.checkJWTToken = (req, res, next) => {
      res.locals.accountData = accountData
      res.locals.loggedin = 1
 
-     console.log(JSON.stringify(accountData)+ "*************************")
+     
     
      next()
     })

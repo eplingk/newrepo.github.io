@@ -1,0 +1,14 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/');
+} %>
+
+
+<%#- messages() %>
+<%- messages() %>
+
+<li><a href="/account/new-message">Create new message</a></li>
+<li><a href="/account/archived-messages">View Archived Messages</a></li>
+
+<h1>This is where the table is going to be. </h1>

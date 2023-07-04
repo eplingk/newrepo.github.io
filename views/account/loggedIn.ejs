@@ -9,14 +9,19 @@
 <%- messages() %>
 <div class="box">
  <% if (locals.accountData.account_type === 'Client') { %>
-    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+    <h2 class="banner">Welcome <%= locals.accountData.account_firstname %></h2>
     <p><a href="/account/update-account?id=<%= locals.accountData.account_id %>">Update Account Information</a></p>
 
 <% } else if (locals.accountData.account_type === 'Employee' || locals.accountData.account_type === 'Admin') { %>
-    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+    <h2 class="banner">Welcome <%= locals.accountData.account_firstname %></h2>
     <p><a href="/account/update-account?id=<%= locals.accountData.account_id %>">Update Account Information</a></p>
-    <h3>Inventory Management</h3>
+    <h2>Inventory Management:</h2>
     <p><a href="/site-name/inv/">Access Inventory Management</a></p>
 <%} %> 
-</div>
 
+
+<h2>Message Center:</h2>
+<li class="red">You have [3] unread messages.</li>
+<!-- When message table is figured out: use that to show unread messages -->
+<li>Go to <a href="/account/inbox">inbox</a></li>
+</div>

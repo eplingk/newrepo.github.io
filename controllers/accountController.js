@@ -226,7 +226,73 @@ async function processNewPassword(req, res) {
   }
 }
 
+  /* ****************************************
+*  Build Inbox View
+* *************************************** */
+async function buildInbox(req, res){
+  let nav = await utilities.getNav()
+  res.render("account/inbox", {
+    title: "Inbox",
+    nav,
+    errors: null,
+  })
+}
 
+  /* ****************************************
+*  Build New Message
+* *************************************** */
+async function buildNewMessage(req, res){
+  let nav = await utilities.getNav()
+  let getAccounts = await accModel.getAccounts()
+  let userList = await utilities.userList()
+  res.render("account/newMessage", {
+    title: "Create a new Message",
+    nav,
+    getAccounts,
+    userList,
+    errors: null,
+  })
+}
+
+  /* ****************************************
+*  Process The Sending of The Message
+* *************************************** */
+async function sendNewMessage(req, res) {
+  let nav = await utilities.getNav()
+  const {message_subject,message_body, message_to, message_from} = req.body
+  const regResult = await accModel.sendMessage(message_subject, message_body, message_to, message_from)
+  console.log(message_from + "HELLO")
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Your message has been sent.`
+    )
+    res.status(201).render("account/inbox", {
+      title: "Your inbox",
+      nav,
+      errors: null,
+    })
+  } else {
+    req.flash("notice", "Sorry, we failed to send your message.")
+    res.status(501).render("account/newMessage", {
+      title: "Create a New Message",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+  /* ****************************************
+*  Build Archived Messages
+* *************************************** */
+async function buildArchivesMessages(req, res){
+  let nav = await utilities.getNav()
+  res.render("account/archivedMessages", {
+    title: "Your Archived Messages",
+    nav,
+    errors: null,
+  })
+}
 
 /* ****************************************
  *  Process logout request
@@ -238,4 +304,4 @@ async function accountLogout(req, res) {
 
 
   
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate, processNewPassword, accountLogout }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate, processNewPassword,buildInbox,buildNewMessage,buildArchivesMessages,sendNewMessage, accountLogout }

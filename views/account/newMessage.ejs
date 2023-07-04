@@ -1,0 +1,35 @@
+<!-- Content Heading -->
+<% if (title) { %>
+    <h1 class="test"><%= title %></h1>
+    <% } else {
+      res.redirect('/')
+    } %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<!-- Messages -->
+<%# messages() %>
+
+<div class="formPage">
+   <p>PLease keep all messages appropriate under company policy.</p><br>
+   <p>*All fields are required*</p>
+  <form action="/account/new-message" method="POST">
+    <label for="recipient"><b>Send To:</b></label><br>
+        <%- userList %><br><br>
+    <label for="subject"><b>Subject:</b></label><br>
+    <input type="text" id="subject" name="message_subject" value="<%= locals.message_subject %>" required><br><br>
+    <label for="message"><b>Message:</b></label><br>
+    <textarea rows="5" cols="50" name="message_body" required><%= locals.message_body %></textarea><br><br>
+    <input class="subButton" type="submit" value="Send"> 
+    <input type="hidden" name="message_from" value="<%= locals.accountData.account_id %>">
+</form>
+  
+  
+    <%- messages() %>
+    </div>

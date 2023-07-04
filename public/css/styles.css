@@ -166,6 +166,12 @@ ul{
   color:red;
   font-weight: 300;
 }
+.banner{
+  background-color: #7eb8eb;
+  max-width: 250px;
+  padding: .25%;
+
+}
 
 footer{
   margin-top: 20%;

@@ -96,5 +96,29 @@ async function updateAccountPassword(account_id, new_password){
   }
 }
 
+/* ***************************
+ *  Get all account data
+ * ************************** */
+async function getAccounts(){
+  return await pool.query("SELECT * FROM public.account ORDER BY account_firstname")
+  
+}
 
-  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword, getAccountByEmail,getAccountByID,updateAccountInformation, updateAccountPassword};
+/* *****************************
+*   Sending Message
+* *************************** */
+async function sendMessage(message_subject,message_body,message_to,message_from){
+  try {
+    console.log(message_subject + "**************************************")
+    console.log(message_body)
+    console.log(message_to)
+    console.log(message_from)
+    const sql = "INSERT INTO message (message_subject,message_body,message_to,message_from) VALUES($1, $2, $3, $4) RETURNING *"
+    return await pool.query(sql, [message_subject,message_body,message_to,message_from])
+  } catch (error) {
+    return error.message
+  }
+}
+
+
+  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword, getAccountByEmail,getAccountByID,updateAccountInformation, updateAccountPassword, getAccounts, sendMessage};

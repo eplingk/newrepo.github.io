@@ -19,6 +19,15 @@ router.get("/management", utilities.checkLogin, utilities.handleErrors(accountCo
 // Update account View
 router.get("/update-account", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateForms))
 
+// Inbox View
+router.get("/inbox", utilities.checkLogin, utilities.handleErrors(accountController.buildInbox))
+
+// New Message View
+router.get("/new-message", utilities.checkLogin, utilities.handleErrors(accountController.buildNewMessage))
+
+// Saved Messages View
+router.get("/archived-messages", utilities.checkLogin, utilities.handleErrors(accountController.buildArchivesMessages))
+
 // Process the registration data
 router.post(
     "/register",
@@ -46,6 +55,12 @@ router.post(
   "/update-account",
     // regValidate.newPasswordRules(),
     utilities.handleErrors(accountController.processNewPassword)
+)
+
+router.post(
+  "/new-message",
+  utilities.checkLogin,
+    utilities.handleErrors(accountController.sendNewMessage)
 )
 
 router.get('/logout', accountController.accountLogout)
