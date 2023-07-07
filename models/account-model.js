@@ -65,10 +65,10 @@ async function getAccountByID(account_id) {
     const result = await pool.query(
       'SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM account WHERE account_id = $1',
       [account_id]
-    );
-    return result.rows[0];
+    )
+    return result.rows[0]
   } catch (error) {
-    return new Error("No matching account found");
+    return new Error("No matching account found")
   }
 }
 
@@ -77,10 +77,10 @@ async function getAccountByID(account_id) {
 * ***************************** */
 async function updateAccountInformation(account_id, firstname, lastname, email) {
   try {
-    const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4";
-    return await pool.query(sql, [firstname, lastname, email, account_id]);
+    const sql = "UPDATE account SET account_firstname = $1, account_lastname = $2, account_email = $3 WHERE account_id = $4"
+    return await pool.query(sql, [firstname, lastname, email, account_id])
   } catch (error) {
-    return error.message;
+    return error.message
   }
 }
 
@@ -109,10 +109,6 @@ async function getAccounts(){
 * *************************** */
 async function sendMessage(message_subject,message_body,message_to,message_from){
   try {
-    console.log(message_subject + "**************************************")
-    console.log(message_body)
-    console.log(message_to)
-    console.log(message_from)
     const sql = "INSERT INTO message (message_subject,message_body,message_to,message_from) VALUES($1, $2, $3, $4) RETURNING *"
     return await pool.query(sql, [message_subject,message_body,message_to,message_from])
   } catch (error) {
@@ -120,5 +116,49 @@ async function sendMessage(message_subject,message_body,message_to,message_from)
   }
 }
 
+/* *****************************
+*   Retrieve Message
+* *************************** */
+async function getMessage(message_to) {
+  try {
+    const sql = "SELECT * FROM message WHERE message_to = $1"
+    const result = await pool.query(sql, [message_to])
+    return result.rows
+  } catch (error) {
+    return error.message
+  }
+}
 
-  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword, getAccountByEmail,getAccountByID,updateAccountInformation, updateAccountPassword, getAccounts, sendMessage};
+/* *****************************
+*   Count Unread Messages
+* *************************** */
+async function getUnreadCount(message_to) {
+  try {
+    const sql = "SELECT COUNT(message_read) FROM message WHERE message_to = $1 AND message_read = false"
+    const result = await pool.query(sql, [message_to])
+    return result.rows[0].count
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* ***************************
+ *  Get message Body by Id
+ * ************************** */
+async function messageBody(message_id){
+  try{
+    const data = await pool.query("SELECT * FROM public.message where message_id = $1", [message_id])
+    return data.rows
+  } catch (error) {
+    console.error("getinventory error " + error)
+  }
+}
+ 
+
+
+
+
+  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword,
+     getAccountByEmail,getAccountByID,updateAccountInformation, updateAccountPassword,getAccounts, sendMessage, getMessage,getUnreadCount,
+     messageBody
+    }

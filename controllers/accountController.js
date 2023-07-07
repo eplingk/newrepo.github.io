@@ -115,9 +115,13 @@ async function accountLogin(req, res) {
 * *************************************** */
 async function buildloggedIn(req, res, next) {
   let nav = await utilities.getNav()
+  const message_to = res.locals.accountData.account_id
+  let unread = await accModel.getUnreadCount(message_to)
   res.render("account/loggedIn", {
     title: "You're logged in",
     nav,
+    message_to,
+    unread,
     errors: null,
   })
 }
@@ -226,14 +230,37 @@ async function processNewPassword(req, res) {
   }
 }
 
-  /* ****************************************
+/* ****************************************
 *  Build Inbox View
 * *************************************** */
 async function buildInbox(req, res){
   let nav = await utilities.getNav()
+  const message_to = res.locals.accountData.account_id
+  let getMessage = await accModel.getMessage(message_to)
+  let inbox = await utilities.messageInbox(message_to)
   res.render("account/inbox", {
     title: "Inbox",
     nav,
+    message_to,
+    getMessage,
+    inbox,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Build Individual Message View
+* *************************************** */
+async function readMessage(req, res){
+  let nav = await utilities.getNav()
+  const message_id = req.params.messageId
+  const data = await accModel.messageBody(message_id)
+  const individualMessage = await utilities.buildindividualMessage(data)
+  let subject = data[0].message_subject
+  res.render("account/reading-message", {
+    title: subject,
+    nav,
+    individualMessage,
     errors: null,
   })
 }
@@ -261,7 +288,7 @@ async function sendNewMessage(req, res) {
   let nav = await utilities.getNav()
   const {message_subject,message_body, message_to, message_from} = req.body
   const regResult = await accModel.sendMessage(message_subject, message_body, message_to, message_from)
-  console.log(message_from + "HELLO")
+  let inbox = await utilities.messageInbox(message_to)
   if (regResult) {
     req.flash(
       "notice",
@@ -270,6 +297,7 @@ async function sendNewMessage(req, res) {
     res.status(201).render("account/inbox", {
       title: "Your inbox",
       nav,
+      inbox,
       errors: null,
     })
   } else {
@@ -304,4 +332,7 @@ async function accountLogout(req, res) {
 
 
   
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate, processNewPassword,buildInbox,buildNewMessage,buildArchivesMessages,sendNewMessage, accountLogout }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate,
+     processNewPassword,buildInbox,
+     readMessage,
+     buildNewMessage,buildArchivesMessages,sendNewMessage, accountLogout }

@@ -21,7 +21,13 @@
 
 
 <h2>Message Center:</h2>
-<li class="red">You have [3] unread messages.</li>
-<!-- When message table is figured out: use that to show unread messages -->
+<li class="red">
+    <% if (unread > 0) { %>
+      You have <%= unread %> unread messages.
+    <% } else { %>
+      You are all caught up on your messages.
+    <% } %>
+    </li>
+
 <li>Go to <a href="/account/inbox">inbox</a></li>
 </div>

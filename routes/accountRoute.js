@@ -25,6 +25,9 @@ router.get("/inbox", utilities.checkLogin, utilities.handleErrors(accountControl
 // New Message View
 router.get("/new-message", utilities.checkLogin, utilities.handleErrors(accountController.buildNewMessage))
 
+// Reading Retreived Message View
+router.get("/reading-message/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.readMessage))
+
 // Saved Messages View
 router.get("/archived-messages", utilities.checkLogin, utilities.handleErrors(accountController.buildArchivesMessages))
 
@@ -62,6 +65,7 @@ router.post(
   utilities.checkLogin,
     utilities.handleErrors(accountController.sendNewMessage)
 )
+
 
 router.get('/logout', accountController.accountLogout)
 

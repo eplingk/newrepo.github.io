@@ -173,6 +173,13 @@ ul{
 
 }
 
+.inboxTable{
+  width: 50%;
+}
+tr:nth-child(even) {
+  background-color: lightgray;
+}
+
 footer{
   margin-top: 20%;
   margin-left: 40%;

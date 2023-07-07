@@ -126,6 +126,77 @@ Util.userList = async function (req, res, next) {
   return list
 }
 
+/* **************************************
+* Build inbox table
+* ************************************ */
+Util.messageInbox = async function (message_to) {
+  let data = await accModel.getMessage(message_to)
+  let inbox = ''
+
+  if (Array.isArray(data) && data.length > 0) {
+    inbox += '<div>'
+    inbox += '<table class="inboxTable">'
+    inbox += '<tr>'
+    inbox += '<th><h1>Received</h1></th>'
+    inbox += '<th><h1>Subject</h1></th>'
+    inbox += '<th><h1>From</h1></th>'
+    inbox += '<th><h1>Read</h1></th>'
+    inbox += '</tr>'
+
+    data.forEach(row => {
+      inbox += '<tr>'
+      inbox += '<td>' + new Date(row.message_created).toLocaleString() + '</td>'
+      inbox += '<td>' + '<a href="/account/reading-message/' + row.message_id + '">' + row.message_subject + '</a>' + '</td>'
+      if (row.message_from === 3) {
+        inbox += '<td>Client, Basic</td>';
+      } else if (row.message_from === 4) {
+        inbox += '<td>Employee, Happy</td>';
+      } else if (row.message_from === 5) {
+        inbox += '<td>User, Manager</td>';
+      } else {
+        inbox += '<td>' + row.message_from + '</td>';
+      }
+      inbox += '<td>' + row.message_read + '</td>'
+      inbox += '</tr>'
+    })
+
+    inbox += '</table>'
+    inbox += '</div>'
+  } else {
+    inbox += '<p class="notice">No messages found.</p>'
+  }
+
+  return inbox
+}
+
+/* **************************************
+* Build inbox table
+* ************************************ */
+Util.buildindividualMessage= async function (data) {
+  let message
+  if(data.length > 0){
+    message = ''
+    data.forEach(row => { 
+      message += '<li> <b>Subject:</b>' + row.message_subject + '</li>'
+      if (row.message_from === 3) {
+        message += '<li> <b>From:</b> Client, Basic</li>';
+      } else if (row.message_from === 4) {
+        message += '<li> <b>From:</b> Employee, Happy</li>';
+      } else if (row.message_from === 5) {
+        message += '<li> <b>From:</b> User, Manager</li>';
+      } else {
+        message += '<li> <b>From:</b>' + row.message_from + '</li>';
+      }
+      message += '<li> <b>Message:</b>' + row.message_body + '</li>'
+    })
+    
+  } else { 
+    message += '<p class="notice">Oops, something went wrong when loading the message.</p>'
+  }
+  return message
+}
+
+
 
 /* ****************************************
  * Middleware For Handling Errors
