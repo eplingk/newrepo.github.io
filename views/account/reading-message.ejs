@@ -9,6 +9,11 @@
 <%- messages() %>
 
 <%- individualMessage %>
-</div>
+<p>____________________________________________________</p><br><br>
 
-<h3>This is where the options to archive, delete and reply will be.</h3>
+
+<a href="/account/mark-read/<%- messageId %>"><button id="readButton">Mark As Read</button></a>
+<a href="/account/reply-message/<%- messageId %>"><button id="readButton">Reply</button></a>
+<a href="/account/delete-message/<%- messageId %>"><button id="readButton">Delete</button></a>
+<a href="/account/archive-mesage/<%- messageId %>"><button id="readButton">Archive</button></a>
+</div> 

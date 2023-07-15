@@ -174,6 +174,15 @@ validate.newPasswordRules = () => {
         })
     ]
   }
+
+
+  // Make sure when sending a message, user chooses an actual recipient
+  validate.validateRecipient = (value) => {
+  if (value === "") {
+    throw new Error("Please select a recipient.");
+  }
+  return true
+}
   
   
   module.exports = validate

@@ -121,7 +121,20 @@ async function sendMessage(message_subject,message_body,message_to,message_from)
 * *************************** */
 async function getMessage(message_to) {
   try {
-    const sql = "SELECT * FROM message WHERE message_to = $1"
+    const sql = "SELECT * FROM message WHERE message_to = $1 AND message_archived = 'false'"
+    const result = await pool.query(sql, [message_to])
+    return result.rows
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* *****************************
+*  Retrieve Archived Messages
+* *************************** */
+async function getArchivedMessage(message_to) {
+  try {
+    const sql = "SELECT * FROM message WHERE message_to = $1 AND message_archived = 'true'"
     const result = await pool.query(sql, [message_to])
     return result.rows
   } catch (error) {
@@ -150,15 +163,54 @@ async function messageBody(message_id){
     const data = await pool.query("SELECT * FROM public.message where message_id = $1", [message_id])
     return data.rows
   } catch (error) {
-    console.error("getinventory error " + error)
+    return error.message
+  }
+}
+
+/* ***************************
+ *  Delete Message
+ * ************************** */
+async function deleteMessage(message_id) {
+  try {
+    const sql = 'DELETE FROM message WHERE message_id = $1'
+    const data = await pool.query(sql, [message_id])
+  return data
+  } catch (error) {
+    return error.message
   }
 }
  
+/* ***************************
+ *  Mark Message as Read
+ * ************************** */
+async function markMessageAsRead(messageId) {
+  try {
+    const sql = 'UPDATE message SET message_read = true WHERE message_id = $1'
+    const data = await pool.query(sql, [messageId])
+    return data
+  } catch (error) {
+    return error.message
+  }
+}
+
+/* ***************************
+ *  Mark Message as Archived
+ * ************************** */
+async function markMessageAsArchived(messageId) {
+  try {
+    const sql = 'UPDATE message SET message_archived = true WHERE message_id = $1'
+    const data = await pool.query(sql, [messageId])
+    return data
+  } catch (error) {
+    return error.message
+  }
+}
 
 
 
 
-  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword,
-     getAccountByEmail,getAccountByID,updateAccountInformation, updateAccountPassword,getAccounts, sendMessage, getMessage,getUnreadCount,
-     messageBody
+
+  module.exports = {registerAccount, checkExistingEmail, checkExistingPassword,getAccountByEmail,getAccountByID,
+    updateAccountInformation, updateAccountPassword,getAccounts, sendMessage, getMessage,getUnreadCount,
+     messageBody,getArchivedMessage,deleteMessage,markMessageAsRead,markMessageAsArchived
     }

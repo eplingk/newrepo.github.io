@@ -116,8 +116,8 @@ Util.classList = async function (req, res, next) {
  ************************** */
 Util.userList = async function (req, res, next) {
   let data = await accModel.getAccounts()
-  let list = '<select id="userList" name="message_to">'
-  list += '<option> Select a Recipitent </option>'
+  let list = '<select id="userList" name="message_to" required>'
+  list += '<option> Select a Recipient </option>'
   data.rows.forEach((row) => {
     
     list += '<option value="' + row.account_id + '">' + row.account_lastname + ', ' + row.account_firstname +'</option>'
@@ -148,13 +148,13 @@ Util.messageInbox = async function (message_to) {
       inbox += '<td>' + new Date(row.message_created).toLocaleString() + '</td>'
       inbox += '<td>' + '<a href="/account/reading-message/' + row.message_id + '">' + row.message_subject + '</a>' + '</td>'
       if (row.message_from === 3) {
-        inbox += '<td>Client, Basic</td>';
+        inbox += '<td>Client, Basic</td>'
       } else if (row.message_from === 4) {
-        inbox += '<td>Employee, Happy</td>';
+        inbox += '<td>Employee, Happy</td>'
       } else if (row.message_from === 5) {
-        inbox += '<td>User, Manager</td>';
+        inbox += '<td>User, Manager</td>'
       } else {
-        inbox += '<td>' + row.message_from + '</td>';
+        inbox += '<td>' + row.message_from + '</td>'
       }
       inbox += '<td>' + row.message_read + '</td>'
       inbox += '</tr>'
@@ -170,7 +170,51 @@ Util.messageInbox = async function (message_to) {
 }
 
 /* **************************************
-* Build inbox table
+* Build Archived table
+* ************************************ */
+Util.ArchivedInbox = async function (message_to) {
+let data = await accModel.getArchivedMessage(message_to)
+let saved = ''
+
+  if (Array.isArray(data) && data.length > 0) {
+    saved += '<div>'
+    saved += '<table class="inboxTable">'
+    saved += '<tr>'
+    saved += '<th><h1>Received</h1></th>'
+    saved += '<th><h1>Subject</h1></th>'
+    saved += '<th><h1>From</h1></th>'
+    saved += '<th><h1>Read</h1></th>'
+    saved += '</tr>'
+
+    data.forEach(row => {
+      saved += '<tr>'
+      saved += '<td>' + new Date(row.message_created).toLocaleString() + '</td>'
+      saved += '<td>' + '<a href="/account/reading-message/' + row.message_id + '">' + row.message_subject + '</a>' + '</td>'
+      if (row.message_from === 3) {
+        saved += '<td>Client, Basic</td>'
+      } else if (row.message_from === 4) {
+        saved += '<td>Employee, Happy</td>'
+      } else if (row.message_from === 5) {
+        saved += '<td>User, Manager</td>'
+      } else {
+        saved += '<td>' + row.message_from + '</td>'
+      }
+      saved += '<td>' + row.message_read + '</td>'
+      saved += '</tr>'
+    })
+
+    saved += '</table>'
+    saved += '</div>'
+  } else {
+    saved += '<p class="notice">No messages found.</p>'
+  }
+
+  return saved
+}
+
+
+/* **************************************
+* Individual Message
 * ************************************ */
 Util.buildindividualMessage= async function (data) {
   let message
@@ -179,22 +223,25 @@ Util.buildindividualMessage= async function (data) {
     data.forEach(row => { 
       message += '<li> <b>Subject:</b>' + row.message_subject + '</li>'
       if (row.message_from === 3) {
-        message += '<li> <b>From:</b> Client, Basic</li>';
+        message += '<li> <b>From:</b> Client, Basic</li>'
       } else if (row.message_from === 4) {
-        message += '<li> <b>From:</b> Employee, Happy</li>';
+        message += '<li> <b>From:</b> Employee, Happy</li>'
       } else if (row.message_from === 5) {
-        message += '<li> <b>From:</b> User, Manager</li>';
+        message += '<li> <b>From:</b> User, Manager</li>'
       } else {
-        message += '<li> <b>From:</b>' + row.message_from + '</li>';
+        message += '<li> <b>From:</b>' + row.message_from + '</li>'
       }
       message += '<li> <b>Message:</b>' + row.message_body + '</li>'
     })
+    
+   
     
   } else { 
     message += '<p class="notice">Oops, something went wrong when loading the message.</p>'
   }
   return message
 }
+
 
 
 

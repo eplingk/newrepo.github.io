@@ -28,8 +28,21 @@ router.get("/new-message", utilities.checkLogin, utilities.handleErrors(accountC
 // Reading Retreived Message View
 router.get("/reading-message/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.readMessage))
 
+// Reply View
+router.get("/reply-message/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.buildReplyMessage))
+
+// Mark Message as Read
+router.get("/mark-read/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.markRead))
+
 // Saved Messages View
-router.get("/archived-messages", utilities.checkLogin, utilities.handleErrors(accountController.buildArchivesMessages))
+router.get("/archived-messages", utilities.checkLogin, utilities.handleErrors(accountController.buildArchivedMessages))
+
+// Mark as Archived
+router.get("/archive-mesage/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.archiveMessage))
+
+// Delete message
+router.get("/delete-message/:messageId", utilities.checkLogin, utilities.handleErrors(accountController.deleteMessage))
+
 
 // Process the registration data
 router.post(
@@ -62,6 +75,12 @@ router.post(
 
 router.post(
   "/new-message",
+  utilities.checkLogin,
+    utilities.handleErrors(accountController.sendNewMessage)
+)
+
+router.post(
+  "/reply-message",
   utilities.checkLogin,
     utilities.handleErrors(accountController.sendNewMessage)
 )

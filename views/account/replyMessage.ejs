@@ -1,0 +1,55 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+  <% } else {
+    res.redirect('/');
+  } %>
+  
+  <% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+  
+  <!-- Messages -->
+  <%# messages() %>
+  
+  <div class="formPage">
+    <p>Please keep all messages appropriate under company policy.</p><br>
+    <p>*All fields are required*</p>
+    <form action="/account/new-message" method="POST">
+      <label for="recipient"><b>Send To:</b></label><br>
+      <span id="sendName"></span><br><br>
+      <input type="hidden" id="send" name="message_to" value="<%= replyMessage.message_to %>" required>
+      <label for="subject"><b>Subject:</b></label><br>
+      <input type="text" id="subject" name="message_subject" value="<%= replyMessage.message_subject %>" required><br><br>
+      <label for="message"><b>Message:</b></label><br>
+      <textarea rows="5" cols="50" name="message_body" required><%= replyMessage.message_body%></textarea><br><br>
+      <input class="subButton" type="submit" value="Send">
+      <input type="hidden" name="message_from" value="<%= locals.accountData.account_id %>">
+    </form>
+  </div>
+  
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const sendInput = document.getElementById('send')
+      const sendName = document.getElementById('sendName')
+      const messageToValue = '<%= replyMessage.message_to %>'
+  
+      if (messageToValue === '5') {
+        sendName.textContent = 'User, Manager'
+      } else if (messageToValue === '4') {
+        sendName.textContent = 'Employee, Happy'
+      } else if (messageToValue === '3') {
+        sendName.textContent = 'Client, Basic'
+      } else {
+        sendName.textContent = messageToValue
+      }
+    })
+  </script>
+  
+    
+    
+      <%- messages() %>
+      </div>

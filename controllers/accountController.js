@@ -253,14 +253,17 @@ async function buildInbox(req, res){
 * *************************************** */
 async function readMessage(req, res){
   let nav = await utilities.getNav()
-  const message_id = req.params.messageId
-  const data = await accModel.messageBody(message_id)
+  const messageId = req.params.messageId
+  const data = await accModel.messageBody(messageId)
   const individualMessage = await utilities.buildindividualMessage(data)
   let subject = data[0].message_subject
+  console.log(data[0].message_subject)
+  console.log(messageId + "##########################")
   res.render("account/reading-message", {
     title: subject,
     nav,
     individualMessage,
+    messageId,
     errors: null,
   })
 }
@@ -310,17 +313,127 @@ async function sendNewMessage(req, res) {
   }
 }
 
+
+
   /* ****************************************
 *  Build Archived Messages
 * *************************************** */
-async function buildArchivesMessages(req, res){
+async function buildArchivedMessages(req, res){
   let nav = await utilities.getNav()
+  const message_to = res.locals.accountData.account_id
+  let getMessage = await accModel.getArchivedMessage(message_to)
+  let saved = await utilities.ArchivedInbox(message_to)
   res.render("account/archivedMessages", {
     title: "Your Archived Messages",
     nav,
+    message_to,
+    getMessage,
+    saved,
     errors: null,
   })
 }
+
+/* ****************************************
+ *  Reply Message
+ * *************************************** */
+async function buildReplyMessage(req, res) {
+  console.log("HIIIIIIIIIIIIIIIIIIII")
+  const nav = await utilities.getNav()
+  // const message_to = res.locals.accountData.account_id
+  const messageId = req.params.messageId
+  const getAccounts = await accModel.getAccounts()
+  const message = await accModel.messageBody(messageId)
+  const userList = await utilities.userList()
+  console.log(message[0].message_subject + "     WHAT?")
+  console.log(messageId + "!!!!!!!!!!!!!!!!!" )
+  console.log(message[0].message_to)
+  console.log(message[0].message_body)
+  console.log(message[0].message_from)
+  const replyMessage = {
+    message_to: message[0].message_from,
+    message_subject: `Re: ${message[0].message_subject}`,
+    message_body: message[0].message_body
+    
+  }
+
+  res.render("account/replyMessage", {
+    title: "Reply Message",
+    nav,
+    getAccounts,
+    userList,
+    replyMessage,
+    messageId,
+    errors: null
+  })
+}
+
+
+
+
+
+  /* ****************************************
+*  Mark As Read
+* *************************************** */
+async function markRead(req, res) {
+  console.log("FOR CRYING OUT LOUD11111111111111111")
+  let nav = await utilities.getNav()
+  const messageId = req.params.messageId
+  console.log(messageId + " AAAAAAAAAAAAAAAAAAAAH")
+  const mark = await accModel.markMessageAsRead(messageId)
+  const data = await accModel.messageBody(messageId)
+  const individualMessage = await utilities.buildindividualMessage(data)
+  let subject = data[0].message_subject
+
+  if (mark) {
+    req.flash("notice", "Message has been marcked as read.");
+  } else {
+    req.flash("notice", "Sorry, we could not mark this message as read.");
+  }
+  
+    res.render("account/reading-message", {
+      title: subject,
+      nav,
+      mark,
+      individualMessage,
+      messageId,
+      errors: null
+    })
+  }
+ 
+
+
+/* ****************************************
+*  Delete Message
+* *************************************** */
+async function deleteMessage(req, res) {
+  const messageId = req.params.messageId;
+  const deleteResult = await accModel.deleteMessage(messageId);
+
+  if (deleteResult) {
+    req.flash("notice", "Message was successfully deleted.");
+  } else {
+    req.flash("notice", "Sorry, the deletion failed.");
+  }
+  
+  res.redirect("/account/inbox");
+}
+
+/* ****************************************
+*  Archive Message
+* *************************************** */
+async function archiveMessage(req, res) {
+  const messageId = req.params.messageId;
+  const archived = await accModel.markMessageAsArchived(messageId);
+
+  if (archived) {
+    req.flash("notice", "Message was successfully archived.");
+  } else {
+    req.flash("notice", "Sorry, the message couldn't be archived.");
+  }
+  
+  res.redirect("/account/inbox");
+}
+
 
 /* ****************************************
  *  Process logout request
@@ -331,8 +444,9 @@ async function accountLogout(req, res) {
 }
 
 
+
+
   
   module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildloggedIn, buildUpdateForms,processUpdate,
-     processNewPassword,buildInbox,
-     readMessage,
-     buildNewMessage,buildArchivesMessages,sendNewMessage, accountLogout }
+     processNewPassword,buildInbox, readMessage,markRead,buildReplyMessage,deleteMessage,archiveMessage,
+     buildNewMessage,buildArchivedMessages,sendNewMessage, accountLogout }
