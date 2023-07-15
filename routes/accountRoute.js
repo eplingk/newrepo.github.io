@@ -76,12 +76,14 @@ router.post(
 router.post(
   "/new-message",
   utilities.checkLogin,
+  // regValidate.validateRecipient,
     utilities.handleErrors(accountController.sendNewMessage)
 )
 
 router.post(
   "/reply-message",
   utilities.checkLogin,
+  // regValidate.validateRecipient,
     utilities.handleErrors(accountController.sendNewMessage)
 )
 
